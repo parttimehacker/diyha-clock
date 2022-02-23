@@ -141,7 +141,6 @@ class WhoDisplay:
 
     def update(self,):
         """ display 3 digits of ip address """
-        print("who.updae() "+self.ip_address[self.iterations])
         try:
             self.display.fill(0)
             self.display.brightness = 1.0
@@ -165,7 +164,7 @@ class SevenSegmentHAL:
         # Create the I2C interface. Auto write is false device show() required
         try:
             i2c = busio.I2C(board.SCL, board.SDA)
-            self.display = Seg7x4(i2c, auto_write=False)
+            self.display = Seg7x4(i2c, address=0x71, auto_write=False)
         except Exception as e:
             self.logger.error("SSH Init Exception: ", exc_info=True)
             raise IOError
