@@ -55,7 +55,8 @@ Not applicable.
 
 ## Setup
 What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
-- git clone the repository and then copy the python file to the **pkg_classes** directory of an relevant DIYHA applicattions on the server.
+- A requirements.txt file contains the dependencies
+- IMPORTANT: a MQTT message broker is required. I recommend mosquitto.
 
 Proceed to describe how to install / setup one's local environment / get started with the project.
 ```
@@ -78,23 +79,7 @@ diyha-clock.start
 How does one go about using it?
 Provide various use cases and code examples here.
 
-```
-├── asset.py
-├── asset.service
-├── LICENSE
-├── logging.ini
-├── pkg_classes
-│   ├── configmodel.py
-│   ├── djangoview.py
-│   ├── statuscontroller.py
-│   ├── testview.py
-│   ├── topicmodel.py
-│   └── whoview.py
-├── README.md
-├── requirements.txt
-├── systemd_script.sh
-```
-- Example from the **asset.py** DIYHA application
+- The clock starts at boot time. Not user interaction is required. 
 ```
 from pkg_classes.whoview import WhoView
 ```
@@ -119,26 +104,7 @@ WHO.set_client(CLIENT)
 client.subscribe("diy/system/who", 1)
 ```
 - handling diy/system/who messages
-```
-TOPIC_DISPATCH_DICTIONARY = {
-    "diy/system/test":
-        {"method": system_message},
-    "diy/system/who":
-        {"method": system_message}
-}
 
-def system_message(client, msg):
-    """ Log and process system messages. """
-    # pylint: disable=unused-argument
-    LOGGER.info(msg.topic + " " + msg.payload.decode('utf-8'))
-    if msg.topic == 'diy/system/test':
-        TEST.on_message(msg.payload)
-    elif msg.topic == 'diy/system/who':
-        if msg.payload == b'ON':
-            WHO.turn_on()
-        else:
-            WHO.turn_off()
-```
 
 ## Implementation Status
 ![Status](https://progress-bar.dev/80/?title=progress)
@@ -148,12 +114,11 @@ def system_message(client, msg):
 Include areas you believe need improvement / could be improved. Also add TODOs for future development.
 
 Room for improvement:
-- Further refactoring to more generalize the class
+- Further refactoring to more generalize the classes
 
 To do:
 - Integrate into other DIYHA applications and repositories
 - Develop a new installation process for seperate repositories
-
 
 ## Acknowledgements
 Give credit here.
