@@ -1,4 +1,4 @@
-c#!/usr/bin/python3
+#!/usr/bin/python3
 """ DIYHA clock
     Display time and respond to MQTT messages
 """
