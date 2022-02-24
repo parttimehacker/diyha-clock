@@ -3,7 +3,6 @@ Adafruit's seven-segment I2C LED backpack device used as a simple clock controll
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django)
 [![linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg)
 
 > Live demo [_here_](https://www.example.com). <!-- If you have the project hosted somewhere, include the link here. -->
@@ -82,7 +81,7 @@ Provide various use cases and code examples here.
 
 - The clock starts at boot time. Not user interaction is required. 
 ```
-from pkg_classes.whoview import WhoView
+from pkg_classes.configmodel import ConfigModel
 ```
 - initialization of the view controller
 ```
