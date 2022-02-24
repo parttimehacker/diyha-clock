@@ -1,5 +1,5 @@
 # diyha-clock
-Adafruit's seven-segment I2C LED backpack device used as a simple clock controlled by MQTT subscribed messages. The Python application responds to specific information based on application topics, e.g. MQTT Broker subscribe/publish. This application is one of several general classes in my *do it yourself home automation system* (**DIYHA**). Each python DIYHA application is hosted on a Raspberry Pi server and will respond to a variety of subscribed topic and report on their status or application specific test data. 
+Adafruit's seven-segment I2C LED backpack device used as a simple clock controlled by MQTT subscribed messages. The Python application responds to specific information based on application topics, e.g. MQTT Broker subscribe/publish. This application is one of several general classes in my *do it yourself home automation system* (**DIYHA**). Each python DIYHA application is hosted on a Raspberry Pi Zerp W server (raspbian lite). 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django)
@@ -26,19 +26,21 @@ Adafruit's seven-segment I2C LED backpack device used as a simple clock controll
 - Provide general information about your project here.
   - This is one of several classes used in my home automation system (**DIYHA**). I've used OOP and MVC concepts in my DIYHA system. 
 - What problem does it (intend to) solve?
-  - I wanted to isolate the diganostic status into a single class. The main python application subscribes to a **diy/system/test** topic and responds by turning on or off clock specific functions.
+  - I wanted to implement a simple clock that automatically resets after a power outage. We used to manually update each clock in the house. A unix based solution automatically updates time on boot.
 - What is the purpose of your project?
-  - My home automation system contains environment sensors, motion sensors, LED clocks, light switches, emergency sirens, a django web server, interfaces to Adafruit.io and a mosquitto MQTT broker.
+  - My home automation system contains environment sensors, motion sensors, LED clocks, light switches, emergency sirens, a django web server, interfaces to and a mosquitto MQTT broker. I added a motion sensor as a security measure and an 8x8 LED for art and messaging. These are both implemented as seperate unix processes.
 - Why did you undertake it?
   - This was a fun project to learn about python, Raspberry Pi, Arduino processors, hardware and more.
 <!-- You don't have to answer all the questions - just the ones relevant to your project. -->
 
 ## Technologies Used
 - python - version 3.7.3
+- Adafruit libraries like adafruit-blinka
 
 ## Features
 List the ready features here:
-- Handles the basic **diy/system/who** function
+- Displays time in several formats, e.g., 12 hour or 24 hour, indicates am/pm and alarms, and dims or brightens based on MQTT topics
+- Handles the basic **diy/system/who** function to show the IP address of the device.
 - Reports on status and diagnostic information by LOGGING application specific informatino message.
 - Code passes pylint with a score of 10.0
 
@@ -57,16 +59,19 @@ What are the project requirements/dependencies? Where are they listed? A require
 
 Proceed to describe how to install / setup one's local environment / get started with the project.
 ```
-git clone https://github.com/parttimehacker/whoview.git
-cd whoview
+git clone https://github.com/parttimehacker/diyha-clock.git
+cd diyha-clock
+sudo pip3 install -r requirements.txt
 ```
-- Copy the python files to the relevant applications
+- Install as a systemd application to start at boot 
 ```
-cp *.py ../asset/pkg_classes
-cp *.py ../clock/pkg_classes
-cp *.py ../server/pkg_classes
-cp *.py ../switch/pkg_classes
-cp *.py ../siren/pkg_classes
+./systemd_script.sh diyha-clock
+```
+- start, stop and status bash aliases are also available
+```
+cd
+source .bashrc
+diyha-clock.start
 ```
 
 ## Usage
