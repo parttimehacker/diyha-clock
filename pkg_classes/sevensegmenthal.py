@@ -78,8 +78,10 @@ class TimeDisplay:
             if self.time_format == 12:
                 if hr >= 12:
                     pm = 0b10000000
-                if hr > 12:
-                    hr -= 12
+                    if hr > 12:
+                        hr -= 12
+                elif hr == 0:
+                    hr = 12
                 d0 = hr // 10
                 if d0 > 0:
                     idx = NUMBERS[d0]
@@ -88,6 +90,8 @@ class TimeDisplay:
                 except Exception as e:
                     self.logger.error("Exception occurred", exc_info=True)
             else:
+                if hr == 0:
+                    hr = 12
                 d0 = hr // 10
                 idx = NUMBERS[d0]
                 try:
@@ -205,8 +209,8 @@ class SevenSegmentHAL:
     def set_clock_alarm(self, alarm=False):
         """ set alarm indictor pixel """
         if alarm:
-        	self.alarm = 0x10000000
+            self.alarm = 0x10000000
         else:
-        	self.alarm = 0
+            self.alarm = 0
 
 

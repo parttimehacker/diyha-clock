@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+c#!/usr/bin/python3
 """ DIYHA clock
     Display time and respond to MQTT messages
 """
@@ -77,12 +77,19 @@ def system_message(client, msg):
             DISPLAY.set_brightness(0.1)
         else:
             DISPLAY.set_brightness(1.0)
-            
+    elif msg.topic == 'diy/system/demo':
+        if msg.payload == b'ON':
+            DISPLAY.set_brightness(1.0)
+        else:
+            DISPLAY.set_brightness(0.1)
+                   
 #pylint: disable=unused-argument
 
 #  A dictionary dispatch table is used to parse and execute MQTT messages.
 
 TOPIC_DISPATCH_DICTIONARY = {
+    "diy/system/demo":
+        {"method":system_message},
     "diy/system/silent":
         {"method":system_message},
     "diy/system/who":
@@ -100,8 +107,9 @@ def on_connect(client, userdata, flags, rc_msg):
         reconnect then subscriptions will be renewed.
     """
     #pylint: disable=unused-argument
-    client.subscribe("diy/system/who", 1)
+    client.subscribe("diy/system/demo", 1)
     client.subscribe("diy/system/silent", 1)
+    client.subscribe("diy/system/who", 1)
 
 def on_disconnect(client, userdata, rc_msg):
     """ Subscribing on_disconnect() tilt """
