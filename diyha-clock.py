@@ -72,12 +72,19 @@ def system_message(client, msg):
             DISPLAY.set_display_mode(WHO_MODE)
         else:
             DISPLAY.set_display_mode(TIME_MODE)
-
+    elif msg.topic == 'diy/system/silent':
+        if msg.payload == b'ON':
+            DISPLAY.set_brightness(0.1)
+        else:
+            DISPLAY.set_brightness(1.0)
+            
 #pylint: disable=unused-argument
 
 #  A dictionary dispatch table is used to parse and execute MQTT messages.
 
 TOPIC_DISPATCH_DICTIONARY = {
+    "diy/system/silent":
+        {"method":system_message},
     "diy/system/who":
         {"method":system_message},
     }
@@ -94,7 +101,7 @@ def on_connect(client, userdata, flags, rc_msg):
     """
     #pylint: disable=unused-argument
     client.subscribe("diy/system/who", 1)
-
+    client.subscribe("diy/system/silent", 1)
 
 def on_disconnect(client, userdata, rc_msg):
     """ Subscribing on_disconnect() tilt """
